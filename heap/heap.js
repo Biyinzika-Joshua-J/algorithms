@@ -35,6 +35,7 @@ function Heap(heap_size=20){
     this.peek = findPeak;
     this.heapSize = sizeOfHeap;
     this.insert = insertNode;
+    this.traverse = levelOrderTraversal;
 
     function findPeak(){
         if (this.size >= 1){
@@ -49,19 +50,20 @@ function Heap(heap_size=20){
 
     // traversal in binary heap
     function levelOrderTraversal(){
-        for (let i=1; i<this.maxSize; i++){
+        for (let i=1; i<this.size+1; i++){
             console.log(this.array[i]);
         }
     }
 
     // insert a node in a binary heap
     function heapifyTreeInsert(index, type, self){ // O(logN) time and space
-        let parentIndex = parseInt(index/2);
-        if (parentIndex <= 1) return;
+        let parentIndex = Math.floor(index/2);
+        if (parentIndex < 1) return;
 
+        if (!self) return;
         if (type === 'min'){
-           
             if (self.array[index] < self.array[parentIndex]){
+                
                 //[self.array[index], self.array[parentIndex]] = [self.array[parentIndex], self.array[index]];
                 let temp = self.array[index];
                 self.array[index] = self.array[parentIndex];
@@ -78,7 +80,7 @@ function Heap(heap_size=20){
         }
     }
 
-    function insertNode(nodeValue, type='max'){
+    function insertNode(nodeValue, type='min'){
         
         if (this.size+1 === this.maxSize) return 'Heap is full';
         this.array[this.size+1] = nodeValue;
@@ -90,9 +92,9 @@ function Heap(heap_size=20){
 }
 
 let binaryHeap1 = new Heap();
-let array = [1,10,4,5,2,1]
+let array = [1000, 200, 1, 0, 50]
 array.forEach(value => {
     binaryHeap1.insert(value);
 })
 
-console.log(binaryHeap1.array)
+binaryHeap1.traverse()
